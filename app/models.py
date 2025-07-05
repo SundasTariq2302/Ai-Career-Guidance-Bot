@@ -21,3 +21,11 @@ class UserRegister(BaseModel):
 class UserOut(BaseModel):
     name: str
     email: EmailStr
+
+
+# New data model for recommendations
+class RecommendationRequest(BaseModel):
+    name: str
+    skills: list[str]
+    interests: list[str]
+

@@ -1,12 +1,12 @@
 from fastapi import FastAPI
-from app.routes import router  # We'll create routes.py next
+from app import routes  # We'll create routes.py next
 from app.database import engine
 from app.models import Base
 
 app = FastAPI(title="AI Career Guidance Bot 🚀")
 
 # Include all routes
-app.include_router(router)
+app.include_router(routes.router)
 
 # Optional: Root route (just for testing)
 @app.get("/")
