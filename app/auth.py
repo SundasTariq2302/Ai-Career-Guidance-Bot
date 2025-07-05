@@ -13,11 +13,12 @@ oauth2_scheme = HTTPBearer()
 # oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 # Create JWT token (as before)
-def create_access_token(data: dict):
+def create_access_token(data: dict, expires_delta: timedelta = timedelta(minutes=30)):
     to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(minutes=60)
+    expire = datetime.utcnow() + expires_delta
     to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
 
 # ✅ Decode and verify token
 def get_current_user(token: HTTPAuthorizationCredentials = Depends(oauth2_scheme)):
