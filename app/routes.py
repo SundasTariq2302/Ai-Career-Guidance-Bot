@@ -90,21 +90,22 @@ career_db = {
     }
 }
 
-
-
 # ✅ NEW: Recommend route
 @router.post("/recommend")
 def recommend_career(user: RecommendationRequest):
     recommendations = []
 
     for career, details in career_db.items():
-        keywords = details["keywords"]
+        # Lowercase the keywords in the database
+        keywords = [kw.lower() for kw in details["keywords"]]
 
-        # Score how many keywords match
-        matched_keywords = set(user.skills + user.interests) & set(keywords)
-        score = len(matched_keywords)
+        # Lowercase the user inputs
+        user_keywords = [skill.lower() for skill in (user.skills + user.interests)]
 
-        if score > 0:
+        # Find intersection
+        matched_keywords = set(user_keywords) & set(keywords)
+
+        if matched_keywords:
             recommendations.append({
                 "career": career,
                 "description": details["description"],
